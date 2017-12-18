@@ -1,0 +1,157 @@
+﻿
+<form id="formPedidos">
+    <div id="divLanches">@Html.Partial("_Lanches")</div>
+    <div id="divComplementos">@Html.Partial("_Complementos")</div>
+    <div class="row">
+        <div class="col-md-12" align="center">
+            <input class="no-display" id="resultCadastro" type="hidden" />
+            <span>O valor final do seu pedido é:<label id="lblValorPedido"></label></span>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+
+    $(function() {
+        $("#divComplementos").hide();
+
+        BuscarDescricao($("#ddlLanches option:selected").val());
+
+        $("#ddlLanches").on("change",
+            function() {
+                BuscarDescricao($(this).val());
+            });
+    });
+
+    function BuscarDescricao(idLanche) {
+
+        abrirLoading();
+        $.ajax({
+            url: '@Url.Action("GetDescricaoLanche", "Pedidos")',
+            data: { id: idLanche },
+            type: 'GET',
+            success: function(result) {
+                $("#divDescricaoLanche").html(result);
+                fecharLoading();
+
+                $("#lblValorPedido").html(parseFloat($("#hdnValorLanche").val().replace(",", ".")).toFixed(2).replace(".", ","));
+            },
+            error: function(er) {
+                fecharLoading();
+            }
+        });
+    }
+
+    function IrParaComplementos() {
+        abrirLoading();
+        $.ajax({
+            url: '@Url.Action("GetComplementosLanche", "Pedidos")',
+            type: 'GET',
+            success: function (result) {
+
+                $("#divItensComplementos").html(result);
+
+                $("#divLanches").hide();
+                $("#divComplementos").show();
+
+                $('.input-quantidade').mask('999');
+
+                $('.input-quantidade').keyup(function() {
+                        CalcularItem(null, this);
+                });
+                fecharLoading();
+
+
+            },
+            error: function (er) {
+                fecharLoading();
+            }
+        });
+
+    }
+
+    function CalcularItem(somar, elemento) {
+
+        var campo = $(elemento).parents("tr").find("input[type=text]");
+
+        if (somar != null) {
+            if (somar) {
+                $(campo).val(parseInt(campo.val()) + 1);
+            } else {
+
+                if ((parseInt(campo.val()) - 1)>=0) {
+                    $(campo).val(parseInt(campo.val()) - 1);
+                }
+            }
+        }
+
+        var valor = $(elemento).parents("tr").find(".valor");
+
+        $(valor).text((parseFloat($(valor).attr("data-valor").replace(",", ".")) * campo.val()).toFixed(2));
+
+        SimularPedido();
+
+    }
+
+    function SimularPedido() {
+        abrirLoading();
+        $.ajax({
+            url: '@Url.Action("SimularPedido", "Pedidos")',
+            data: $('#formPedidos').serialize(),
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                $("#resultCadastro").val(result.toString().replace(".", ","));
+                $("#lblValorPedido").html(result.toFixed(2).replace(".", ","));
+                fecharLoading();
+            },
+            error: function (er) {
+                bootbox.alert({
+                    title: "<div align='center'>Erro</div>",
+                    message: "<div align='center'>" + er.responseJSON.mensagem + "</div>"
+                });
+
+                fecharLoading();
+            }
+        });
+    }
+
+    function IrParaLanches() {
+        $("#divComplementos").hide();
+        $("#divLanches").show();
+    }
+
+    function FinalizarPedido() {
+
+        abrirLoading();
+        $.ajax({
+            url: '@Url.Action("Cadastrar", "Pedidos")',
+            data: $('#formPedidos').serialize(),
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+
+                bootbox.alert({
+                    title: "<div align='center'>Alerta</div>",
+                    message: "<div align='center'>" + result.mensagem+"</div>",
+                    callback: function() {
+                        window.location = '@Url.Action("Index", "Home")';
+                    }
+                });
+                fecharLoading();
+                $("#resultCadastro").val(result.object.valorTotal);
+            },
+            error: function (er) {
+                bootbox.alert({
+                    title: "<div align='center'>Erro</div>",
+                    message: "<div align='center'>" + er.responseJSON.mensagem + "</div>"
+                });
+
+                fecharLoading();
+            }
+        });
+    }
+
+</script>

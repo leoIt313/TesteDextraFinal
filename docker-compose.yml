@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  testedextra:
+    image: testedextra
+    build:
+      context: ./TesteDextra
+      dockerfile: Dockerfile

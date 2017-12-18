@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <h2 class="TituloPedidos">Pedidos Recentes</h2>
+        </div>
+    </div>
+    <div class="col-md-12" align="center">
+        @Html.ActionLink("Cardápio", "Index", "Pedidos", routeValues: null, htmlAttributes: new { @class = "btn btn-success btn-md BotaoNovoPedido",@id="btnNovoPedido" })
+    </div>
+    <div class="col-md-12">
+        <div align="center">
+            <table class="table table-hover TablePedidos">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Lanche</th>
+                        <th scope="col">Complementos</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Data/Hora</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.Partial("_Pedidos")
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</div>

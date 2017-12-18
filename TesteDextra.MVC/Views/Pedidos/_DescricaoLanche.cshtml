@@ -1,0 +1,14 @@
+﻿@model TesteDextra.Application.ViewModel.Response.LancheViewModel
+
+@if (Model != null)
+{
+    <label id="lblValorLanche">@String.Format("Valor Lanche: {0:C}", Convert.ToDecimal(Model.Valor))  </label>
+    <div class="DivMsgDecricao"><br />Um saboroso lanche com:<br /><br /> </div>
+    <input type="hidden" id="hdnValorLanche" value="@Convert.ToDecimal(Model.Valor)"/>
+    <ul>
+        @foreach (var item in Model.Ingredientes)
+        {
+            <li>@item</li>
+        }
+    </ul>
+}

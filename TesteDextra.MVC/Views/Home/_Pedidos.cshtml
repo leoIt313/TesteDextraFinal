@@ -1,0 +1,31 @@
+﻿
+@using TesteDextra.Application.ViewModel.Response
+@model List<TesteDextra.Application.ViewModel.Response.PedidosViewModel>
+
+@if (Model != null)
+{
+    if (Model.Any())
+    {
+        for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td scope="row">@(i + 1)</td>
+                <td>@Model[i].Codigo</td>
+                <td>@Model[i].Lanche</td>
+                <td>
+                    <span>@string.Join(",", Model[i].Complementos)</span>
+                </td>
+                <td>@Model[i].Valor</td>
+                <td>@Model[i].DataHora</td>
+                <td>@Model[i].Status</td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+           <td colspan="7"><label class="MsgNenhumPedido">Nenhum pedido recente foi encontrado: (</label> </td> 
+        </tr>
+       
+    }
+}

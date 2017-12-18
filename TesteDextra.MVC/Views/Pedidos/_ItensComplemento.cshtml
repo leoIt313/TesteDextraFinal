@@ -1,0 +1,35 @@
+﻿@model List<TesteDextra.Application.ViewModel.Response.ComplementoViewModel>
+
+@if (Model != null)
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <table class="table">
+            <thead>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-lg-2">
+
+                        @Html.HiddenFor(x => Model[i].IdComplemento)
+                        @Html.HiddenFor(x => Model[i].Valor)
+                        <label>@Model[i].Nome</label>
+                    </td>
+                    <td class="col-sm-1">
+                        <input type="button" class="btn btn-danger btn-group-sm" style="border-radius: 45%; width: 35px" value="-" onclick="CalcularItem(false,this)" id="@String.Concat(Model[i].IdComplemento,"Sub")" />&nbsp;&nbsp;
+
+                        <input type="button" class="btn btn-success btn-group-sm" style="border-radius: 45%; width: 35px" value="+" onclick="CalcularItem(true,this)" id="@String.Concat(Model[i].IdComplemento,"Soma")" />
+                    </td>
+                    <td class="col-lg-2">
+                        @Html.TextBoxFor(x => Model[i].Quantidade, new { @class = "input-sm input-quantidade", id = String.Concat("txtIngrediente", Model[i].IdComplemento) })
+                    </td>
+                    <td class="col-lg-2">
+                        <label class="LabelSimboloMonetario"> R$ &nbsp;</label><label class="valor" data-valor="@Model[i].Valor">@decimal.Zero</label>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    }
+}

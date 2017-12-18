@@ -1,0 +1,39 @@
+﻿
+
+@using TesteDextra.Application.ViewModel.Response
+@model TesteDextra.Application.ViewModel.Response.SelectLancheViewModel
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <h2 class="TituloPedidos">Cardápio</h2>
+        </div>
+        <hr />
+    </div>
+    
+    <div class="col-md-12">
+        <div>
+            <div class="form-group">
+                <label for="ddlLanches">Escolha seu Lanche</label>
+                
+                @Html.DropDownListFor(m => m.IdLancheSelecionado, Model.SelectItemLanche, new { @class = "form-control DropDownLanches", @id= "ddlLanches" })
+                
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12" id="divDescricaoLanche">
+        
+       
+
+        <div style="background-color: rgb(236, 236, 236); width: 100%; height: 20vw; margin-bottom: 10px" >
+
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div>
+            <div class="">
+                <input class="btn btn-success btn-md BotaoIrComplementos" type="button" id="btnProximo" value="Proximo" onclick="IrParaComplementos()" />
+            </div>
+        </div>
+    </div>
+</div>
