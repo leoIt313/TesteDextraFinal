@@ -46,7 +46,7 @@ namespace TesteDextra.MVC.Controllers
             {
                 var result = _pedidosApplication.CadastrarPedido(pedidoViewModel, complementoViewModel);
 
-                return new ExecutionResult(StatusCodes.Status200OK, string.Format("O seu pedido no valor de {0} foi efetuado com sucesso", result.ValorTotal), result);
+                return new ExecutionResult(StatusCodes.Status200OK, string.Format("O seu pedido no valor de {0} foi efetuado com sucesso", result.ValorTotal.ToString("C")), result);
             }
             catch (ArgumentException exception)
             {
